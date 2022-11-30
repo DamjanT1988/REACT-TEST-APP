@@ -56,22 +56,9 @@ class Board extends React.Component {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
+            //14-1 set "X" as default
+            xIsNext:true,
         };
-    }
-
-    renderSquare(i) {
-
-        //2-1 pass prop to square (child)
-        return (
-            //(passing down two props to Square)
-            <Square
-                //10 read from squares in this.state (to read X O NULL)
-                value={this.state.squares[i]}
-                //11-1 pass down a funnction to Square, by click
-                onClick={() => this.handleClick(i)}//x4
-            />
-        );
-        //return <Square value={i} />;
     }
 
     //12 add handleClick method
@@ -85,6 +72,21 @@ class Board extends React.Component {
         const squares = this.state.squares.slice();
         squares[i] = "X";
         this.setState({squares: squares});
+    }
+
+    //actual square render
+    renderSquare(i) {
+        //2-1 pass prop to square (child)
+        return (
+            //(passing down two props to Square)
+            <Square
+                //10 read from squares in this.state (to read X O NULL)
+                value={this.state.squares[i]}
+                //11-1 pass down a funnction to Square, by click
+                onClick={() => this.handleClick(i)}//x4
+            />
+        );
+        //return <Square value={i} />;
     }
 
     render() {
@@ -135,7 +137,20 @@ x5    We have not defined the handleClick() method yet, so our code crashes. If 
 //******************
 // REACT COMPONENT (CHILD)
 //******************
-class Square extends React.Component {
+//13 create a function component instead
+//notice no arrow function in props, as before
+//it works with no changes in Board/Game
+function Square(props) {
+    return (
+        <button className="square" onClick={props.onClick}>
+            {props.value}
+        </button>
+    )
+}
+
+
+
+/*class Square extends React.Component {
     //5 add a constructur
     //11-2 no longer keeps track of Game's state
     /*constructor(props) {
@@ -144,7 +159,8 @@ class Square extends React.Component {
             value: null,
         };
     }*/
-
+/*
+    //actual each square
     render() {//x2
         return (
             //6 change render method to display current state's value when clicked
@@ -160,6 +176,7 @@ class Square extends React.Component {
         );
     }
 }
+*/
 
 
 // ========================================
