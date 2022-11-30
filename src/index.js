@@ -56,7 +56,7 @@ class Board extends React.Component {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
-            //14-1 set "X" as default
+            //14-1 set "X" as default.. bool
             xIsNext:true,
         };
     }
@@ -70,8 +70,20 @@ class Board extends React.Component {
         the data with a new copy which has the desired changes.
         */
         const squares = this.state.squares.slice();
-        squares[i] = "X";
-        this.setState({squares: squares});
+
+        //18 ignore click after win
+        if(calculateWinner(squares) || squares[i]) {
+            return;
+        }
+
+        //14-1 choose char
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        //squares[i] = "X";
+        this.setState({
+            squares: squares,
+            //14-3 flip bool value
+            xIsNext: !this.state.xIsNext,
+        });
     }
 
     //actual square render
@@ -89,8 +101,17 @@ class Board extends React.Component {
         //return <Square value={i} />;
     }
 
+    //15 change status
     render() {
-        const status = 'Next player: X';
+        //const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        //17 declare a winner
+        const winner = calculateWinner(this.state.squares);
+        let status;
+        if (winner){
+            status = "Winner: " + winner;
+        } else {
+            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
 
         return (
             <div>
@@ -178,6 +199,34 @@ function Square(props) {
 }
 */
 
+//**********
+// FUNCTION
+//**********
+//16 paste the winnder function code
+function calculateWinner(squares) {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a];
+      }
+    }
+    return null;
+  }
+
+  //********
+  //HISTORY 
+  //********
+  
 
 // ========================================
 
