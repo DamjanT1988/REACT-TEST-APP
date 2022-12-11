@@ -76,13 +76,13 @@ class Board extends React.Component {
         const squares = this.state.squares.slice();
 
         //18 ignore click after win
-        //---6-3 ignore click if winner true or click already exist 
+        //---6-3 ignore click if winner true or click on square already exist 
         if(calculateWinner(squares) || squares[i]) {
             return;
         }
 
         //14-1 choose char
-        //---6-4 select next char, true/false
+        //---6-4 select next char, check if true(X)/false(O)
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         //squares[i] = "X";
         //---6-5 set new state with squares and next char 
