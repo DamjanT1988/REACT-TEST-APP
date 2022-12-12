@@ -160,6 +160,8 @@ root.render(<Game />);
 
 
 //*******************************************************************************************************
+//TEST APP MIKAEL 1
+//*******************************************************************************************************
 
 var data=[];
 
@@ -214,9 +216,134 @@ root2.render(
   </React.StrictMode>
 );
 
+//*******************************************************************************************************
+//TEST APP MIKAEL 2
+//*******************************************************************************************************
+
+var sortOrder = 1; // Default sort order - Ascending
+
+var datas=[
+  {id:0,group:'Dua Lipa',song:'New Rules',album:'Dua Lipa', year:'2017'},
+    {id:1, group:'Avicii',song:'Wake Me Up',album:'True',year:'2013'},
+      {id:2, group:'Drake',song:'God’s Plan',album:'Scorpion',year:'2018'},
+        {id:3,group:'Hov1',song:'Neon',album:'Hov1',year:'2017'}];
+
+const App2 = () => {
+  return (
+    <div className="App">
+      <List list={datas} />
+    </div>
+  )
+};    
+
+const List = (props) => {
+  var [values, setValues] = React.useState({}); // Hooks for input elems
+  const [, forceUpdate] = React.useState(0); // Hook for elem update
+  const [searchTerm, setSearchTerm] = React.useState(''); // Hook for search term
+
+//
+// Event handler for search button
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+//
+// Event handler for input elems
+  const manageChange = (event) => {
+    setValues(event.target.value);
+    let elem = event.target.id[0]; // Ex. s2 => prop: song / id: 2
+    let id = event.target.id[1];
+    let i=0;
+  // eslint-disable-next-line
+    for(i=0;i<datas.length;i++) if(datas[i].id == id) break; // Get matching id for update
+    id = i;
+  // eslint-disable-next-line
+    if (elem == 'g') datas[id].group = event.target.value;
+  // eslint-disable-next-line
+    if (elem == 's') datas[id].song = event.target.value;
+  // eslint-disable-next-line
+    if (elem == 'a') datas[id].album = event.target.value;
+  // eslint-disable-next-line
+    if (elem == 'y') datas[id].year = event.target.value;
+  }
+
+//
+// Event handler for sort button
+  const manageSort = (event) => {
+    sortOrder *= -1;   
+    filteredList = filteredList.sort((first, second) => {
+                    return first.year > second.year ? sortOrder : -sortOrder;
+                  })
+    forceUpdate(n => !n); // Force render when sorted data  
+  };
+
+//
+// Event handler for delete button
+  const handleDel = (event) => {
+    let id=event.target.id, i=0;
+// eslint-disable-next-line
+    for(i=0;i<datas.length;i++) if(datas[i].id == id) break; // Get matching id for removal
+    datas.splice(i,1); // Remove record from datas
+    forceUpdate(n => !n); // Force render  
+  };
 
 
+//
+// Create filtered list based on search term 
+let filteredList = props.list;
+if(searchTerm) {
+  filteredList = filteredList.filter(
+    ({ group }) => group.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+}
 
+  return (
+  <div>
+    <div id="searchDiv">
+    <label htmlFor="search"></label>  
+    &nbsp;<input id="search" onChange={handleChange} type="text" autoComplete="off" />&nbsp;<span class="glyphicon glyphicon-search" />
+   </div>
+
+  <table class="table table-striped">
+  <thead>
+    <tr><th>Edit</th><th>Group</th><th>Song</th><th>Album</th><th><button onClick={manageSort} >Year <span class="glyphicon glyphicon-sort"></span></button></th>
+    </tr>
+  </thead>
+  <tbody>
+      {
+//
+// Publish data array inclusive sorted on year and filtered on group
+        filteredList.map((item, index) => {
+
+        values = item;
+
+        return (
+  <tr>
+    <td>
+      <button class="btn" id={item.id} onClick={handleDel}>
+        <span  class="glyphicon glyphicon-remove" ></span>&nbsp;&nbsp;Remove
+      </button>
+    </td>
+    <td><input id={'g'+item.id} class="noborder" type="text" onChange={manageChange} value={values.group} /></td>
+    <td><input id={'s'+item.id} class="noborder" type="text" onChange={manageChange} value={values.song} /></td>
+    <td><input id={'a'+item.id} class="noborder" type="text" onChange={manageChange} value={item.album} /></td>
+    <td><input id={'y'+item.id} class="noborder" type="text" onChange={manageChange} value={item.year} /></td>
+
+  </tr>
+      )})
+      }
+  </tbody>
+</table>
+</div>
+  )    
+      };
+
+      const root3 = ReactDOM.createRoot(document.getElementById('root3'));
+      root3.render(
+        <React.StrictMode>
+          <App2 />
+        </React.StrictMode>
+      );
 
 
 
