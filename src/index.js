@@ -159,6 +159,69 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game />);
 
 
+//*******************************************************************************************************
+
+var data=[];
+
+const App = () => {
+
+  const [inData, setIndata] = React.useState(""); // State hook for inData
+
+    var myStyle = {
+      color: '#0000FF'
+    }
+
+  //
+  // Event handler for text input
+  const handleChange = (event) => {
+    setIndata(event.target.value);
+  };
+
+  //
+  // Event handler for save button
+  const handleSave = () => {
+    data.push(inData);
+    resetIndata(); // setIndata("");
+  };
+
+  //
+  // Reset input field
+    const resetIndata = () => {
+      setIndata("");
+    };
+  
+  //
+  // Component rendering
+    return (
+      <div className="App">
+        <input style={myStyle} type="text" placeholder="Input text" onChange={handleChange} value={inData} /> &nbsp;
+        <button onClick={handleSave}>Save</button>&nbsp;{inData}
+        <ul>
+        {
+          data.map((str) =>
+              <li>{str}</li>
+          )
+        }
+        </ul>
+      </div>
+    );
+}
+ 
+const root2 = ReactDOM.createRoot(document.getElementById('root2'));
+root2.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+
+
+
+
+
+
+
+
 
 
 
