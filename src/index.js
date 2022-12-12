@@ -220,8 +220,10 @@ root2.render(
 //TEST APP MIKAEL 2
 //*******************************************************************************************************
 
+//2
 var sortOrder = 1; // Default sort order - Ascending
 
+//3-2
 var datas=[
   {id:0,group:'Dua Lipa',song:'New Rules',album:'Dua Lipa', year:'2017'},
     {id:1, group:'Avicii',song:'Wake Me Up',album:'True',year:'2013'},
@@ -229,25 +231,27 @@ var datas=[
         {id:3,group:'Hov1',song:'Neon',album:'Hov1',year:'2017'}];
 
 const App2 = () => {
-  return (
+    //3-1
+    return (
     <div className="App">
       <List list={datas} />
     </div>
   )
 };    
 
+//4
 const List = (props) => {
   var [values, setValues] = React.useState({}); // Hooks for input elems
   const [, forceUpdate] = React.useState(0); // Hook for elem update
   const [searchTerm, setSearchTerm] = React.useState(''); // Hook for search term
 
-//
+
 // Event handler for search button
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-//
+
 // Event handler for input elems
   const manageChange = (event) => {
     setValues(event.target.value);
@@ -267,7 +271,7 @@ const List = (props) => {
     if (elem == 'y') datas[id].year = event.target.value;
   }
 
-//
+
 // Event handler for sort button
   const manageSort = (event) => {
     sortOrder *= -1;   
@@ -277,7 +281,7 @@ const List = (props) => {
     forceUpdate(n => !n); // Force render when sorted data  
   };
 
-//
+
 // Event handler for delete button
   const handleDel = (event) => {
     let id=event.target.id, i=0;
@@ -288,7 +292,6 @@ const List = (props) => {
   };
 
 
-//
 // Create filtered list based on search term 
 let filteredList = props.list;
 if(searchTerm) {
@@ -297,6 +300,7 @@ if(searchTerm) {
   );
 }
 
+//5
   return (
   <div>
     <div id="searchDiv">
@@ -311,12 +315,13 @@ if(searchTerm) {
   </thead>
   <tbody>
       {
-//
+
 // Publish data array inclusive sorted on year and filtered on group
+        //6-1
         filteredList.map((item, index) => {
 
         values = item;
-
+        //6-2
         return (
   <tr>
     <td>
@@ -339,6 +344,7 @@ if(searchTerm) {
       };
 
       const root3 = ReactDOM.createRoot(document.getElementById('root3'));
+      //1
       root3.render(
         <React.StrictMode>
           <App2 />
@@ -347,6 +353,11 @@ if(searchTerm) {
 
 
 
+
+
+
+
+      
 
 
 
