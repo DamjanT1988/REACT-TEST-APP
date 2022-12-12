@@ -4,7 +4,6 @@ NOTES:
 
 */
 
-//1
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -33,71 +32,53 @@ class Game extends React.Component {
 // REACT COMPONENT(PARENT) 
 //******************
 class Board extends React.Component {
-    //7 create constructor, add Board's initial stat to contain 
-    //an array of 9 nulls
     //---2-1 run constructor
     constructor(props) {
         super(props);
-        this.state = { //---2-2 set squares to empty and X as start
+        //---2-2 set initial state; all squares to empty and X as start player
+        this.state = { 
             squares: Array(9).fill(null),
-            //14-1 set "X" as default.. bool
-            xIsNext:true,
+            xIsNext:false
         };
     }
 
-    //12 add handleClick method
     //---6-1 Square component is clicked; activate
     handleClick(i) {
-        //(slice means copying square instead of modify)
-        /*
-        There are generally two approaches to changing data. The first approach is to mutate 
-        the data by directly changing the data’s values. The second approach is to replace 
-        the data with a new copy which has the desired changes.
-        */
-        //---6-2 save a copy of squares from state
+        //---6-2 save a copy of squares from state (slice means copying square instead of modify)
         const squares = this.state.squares.slice();
 
-        //18 ignore click after win
         //---6-3 ignore click if winner true or click on square already exist 
         if(calculateWinner(squares) || squares[i]) {
             return;
         }
 
-        //14-1 choose char
         //---6-4 select next char, check if true(X)/false(O)
         squares[i] = this.state.xIsNext ? 'X' : 'O';
-        //squares[i] = "X";
+
         //---6-5 set new state for squares (incl. the new change) and next char (opposite of current) 
         this.setState({
             squares: squares,
-            //14-3 flip bool value
             //---6-6 set next char to not X (false)
             xIsNext: !this.state.xIsNext,
         });
     }
 
-    //actual square render
     //---4-1
     renderSquare(i) {
-        //2-1 pass prop to square (child)
         return (
             //(passing down two props to Square)
-            //---4-2 call component; pass prop data value and, call onClick method
+            //---4-2 call component; pass prop data value and, call onClick method (when clicked)
             <Square
-                //10 read from squares in this.state (to read X O NULL)
+                //--4-3 read from squares in this.state (to read X O NULL)
                 value={this.state.squares[i]}
-                //11-1 pass down a funnction to Square, by click
+                //--4-4 pass down a funnction to Square, by click
                 onClick={() => this.handleClick(i)}//x4
             />
         );
-        //return <Square value={i} />;
     }
 
-    //15 change status
     //---3-1 run render
     render() {
-        //const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        //17 declare a winner
         //---3-2 call method for winner
         const winner = calculateWinner(this.state.squares);
         let status;
@@ -134,14 +115,11 @@ class Board extends React.Component {
 }
 
 //******************
-// REACT COMPONENT (CHILD)
+// REACT COMPONENT (CHILD) - FUNCTION COMPONENT
 //******************
-//13 create a function component instead
-//notice no arrow function in props, as before
-//it works with no changes in Board/Game
-//---5 take prop data and return JSX for DOM render; set evemt listener; return click to method handleClick
+//---5-1 take prop data and return JSX for DOM render; set evemt listener; return click to method handleClick
 function Square(props) {
-    return (
+    return (//5-2 event listener
         <button className="square" onClick={props.onClick}>
             {props.value}
         </button>
@@ -151,8 +129,7 @@ function Square(props) {
 //**********
 // FUNCTION
 //**********
-//16 paste the winnder function code
-//--3-3 find if there is a winner
+//--3-3 multidimensional array
 function calculateWinner(squares) {
     const lines = [
       [0, 1, 2],
@@ -167,18 +144,21 @@ function calculateWinner(squares) {
 
     //--3-4 loop through multidimensional array
     for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];               //??????
+        const [a, b, c] = lines[i];               //??????
+      
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return squares[a]; //true
       }
     }
-    //--3-5 no match, return null
+    //--3-5 no winner, return null (false)
     return null;
-  }
+  } 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 //0 root call top component
 root.render(<Game />);
+
+
 
 
 
@@ -218,6 +198,13 @@ Note how in handleClick, we call .slice() to create a copy of the squares array 
 of modifying the existing array. We will explain why we create a copy of the squares array in the 
 next section.
 */
+
+
+        /*
+        There are generally two approaches to changing data. The first approach is to mutate 
+        the data by directly changing the data’s values. The second approach is to replace 
+        the data with a new copy which has the desired changes.
+        */
 
 
 /*class Square extends React.Component {
