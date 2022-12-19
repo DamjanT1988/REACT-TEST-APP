@@ -340,8 +340,7 @@ if(searchTerm) {
   <tbody>
       {
 
-// Publish data array inclusive sorted on year and filtered on group
-        //6-1
+        //6-1 Publish data array inclusive sorted on year and filtered on group
         filteredList.map((item, index) => {
         values = item;
         //6-2
