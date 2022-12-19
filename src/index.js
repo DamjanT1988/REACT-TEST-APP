@@ -165,36 +165,41 @@ root.render(<Game />);
 
 var data=[];
 
+//2
 const App = () => {
-
+  //5HC
   const [inData, setIndata] = React.useState(""); // State hook for inData
-
-    var myStyle = {
+    
+  var myStyle = {
       color: '#0000FF'
     }
 
-  //
   // Event handler for text input
+  //4HC-1
   const handleChange = (event) => {
+    //4HC-2
     setIndata(event.target.value);
   };
 
-  //
   // Event handler for save button
+  //6HS-1
   const handleSave = () => {
+    //6HS-2
     data.push(inData);
+    //6HS-3
     resetIndata(); // setIndata("");
   };
 
-  //
   // Reset input field
+    //7-1
     const resetIndata = () => {
+      //7-2
       setIndata("");
     };
   
-  //
   // Component rendering
-    return (
+  //3  
+  return (
       <div className="App">
         <input style={myStyle} type="text" placeholder="Input text" onChange={handleChange} value={inData} /> &nbsp;
         <button onClick={handleSave}>Save</button>&nbsp;{inData}
@@ -210,6 +215,7 @@ const App = () => {
 }
  
 const root2 = ReactDOM.createRoot(document.getElementById('root2'));
+//1
 root2.render(
   <React.StrictMode>
     <App />
@@ -220,18 +226,21 @@ root2.render(
 //TEST APP MIKAEL 2
 //*******************************************************************************************************
 
-//2
+//3-4 methods in each component max
+
+//
 var sortOrder = 1; // Default sort order - Ascending
 
-//3-2
+//3
 var datas=[
-  {id:0,group:'Dua Lipa',song:'New Rules',album:'Dua Lipa', year:'2017'},
-    {id:1, group:'Avicii',song:'Wake Me Up',album:'True',year:'2013'},
-      {id:2, group:'Drake',song:'God’s Plan',album:'Scorpion',year:'2018'},
-        {id:3,group:'Hov1',song:'Neon',album:'Hov1',year:'2017'}];
+{id:0,group:'Dua Lipa',song:'New Rules',album:'Dua Lipa', year:'2017'},
+{id:1, group:'Avicii',song:'Wake Me Up',album:'True',year:'2013'},
+{id:2, group:'Drake',song:'God’s Plan',album:'Scorpion',year:'2018'},
+{id:3,group:'Hov1',song:'Neon',album:'Hov1',year:'2017'}];
 
+//top component
+//2
 const App2 = () => {
-    //3-1
     return (
     <div className="App">
       <List list={datas} />
@@ -239,27 +248,36 @@ const App2 = () => {
   )
 };    
 
+// child component
 //4
 const List = (props) => {
+  //14MC
   var [values, setValues] = React.useState({}); // Hooks for input elems
+  //11MS
   const [, forceUpdate] = React.useState(0); // Hook for elem update
+  //8S
   const [searchTerm, setSearchTerm] = React.useState(''); // Hook for search term
 
 
 // Event handler for search button
+//7S-1
   const handleChange = (event) => {
+    //7S-2
     setSearchTerm(event.target.value);
   };
 
 
 // Event handler for input elems
-  const manageChange = (event) => {
+//13MC-1  
+const manageChange = (event) => {
+    //13MC-2
     setValues(event.target.value);
     let elem = event.target.id[0]; // Ex. s2 => prop: song / id: 2
     let id = event.target.id[1];
     let i=0;
   // eslint-disable-next-line
-    for(i=0;i<datas.length;i++) if(datas[i].id == id) break; // Get matching id for update
+    for(i=0;i<datas.length;i++) 
+    if(datas[i].id == id) break; // Get matching id for update
     id = i;
   // eslint-disable-next-line
     if (elem == 'g') datas[id].group = event.target.value;
@@ -273,27 +291,33 @@ const List = (props) => {
 
 
 // Event handler for sort button
-  const manageSort = (event) => {
+//10MS-1
+const manageSort = (event) => {
     sortOrder *= -1;   
     filteredList = filteredList.sort((first, second) => {
-                    return first.year > second.year ? sortOrder : -sortOrder;
-                  })
-    forceUpdate(n => !n); // Force render when sorted data  
+             return first.year > second.year ? sortOrder : -sortOrder;
+          })
+        //10MS-2
+        forceUpdate(n => !n); // Force render when sorted data  
   };
 
 
 // Event handler for delete button
+//12D-1
   const handleDel = (event) => {
     let id=event.target.id, i=0;
 // eslint-disable-next-line
     for(i=0;i<datas.length;i++) if(datas[i].id == id) break; // Get matching id for removal
     datas.splice(i,1); // Remove record from datas
+    //12D-2
     forceUpdate(n => !n); // Force render  
   };
 
 
 // Create filtered list based on search term 
-let filteredList = props.list;
+
+//9S
+let filteredList = props.list; //from App as prop to pass data
 if(searchTerm) {
   filteredList = filteredList.filter(
     ({ group }) => group.toLowerCase().includes(searchTerm.toLowerCase()) 
@@ -319,10 +343,10 @@ if(searchTerm) {
 // Publish data array inclusive sorted on year and filtered on group
         //6-1
         filteredList.map((item, index) => {
-
         values = item;
         //6-2
         return (
+            //12D & 13MC
   <tr>
     <td>
       <button class="btn" id={item.id} onClick={handleDel}>
@@ -333,7 +357,6 @@ if(searchTerm) {
     <td><input id={'s'+item.id} class="noborder" type="text" onChange={manageChange} value={values.song} /></td>
     <td><input id={'a'+item.id} class="noborder" type="text" onChange={manageChange} value={item.album} /></td>
     <td><input id={'y'+item.id} class="noborder" type="text" onChange={manageChange} value={item.year} /></td>
-
   </tr>
       )})
       }
@@ -341,23 +364,24 @@ if(searchTerm) {
 </table>
 </div>
   )    
-      };
 
-      const root3 = ReactDOM.createRoot(document.getElementById('root3'));
-      //1
-      root3.render(
-        <React.StrictMode>
-          <App2 />
-        </React.StrictMode>
-      );
+}; //end of list component
 
 
-
+const root3 = ReactDOM.createRoot(document.getElementById('root3'));
+//1
+root3.render(
+<React.StrictMode>
+    <App2 />
+</React.StrictMode>);
 
 
 
 
-      
+
+
+
+
 
 
 
