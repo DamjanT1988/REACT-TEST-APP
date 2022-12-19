@@ -234,8 +234,8 @@ var sortOrder = 1; // Default sort order - Ascending
 //3
 var datas=[
 {id:0,group:'Dua Lipa',song:'New Rules',album:'Dua Lipa', year:'2017'},
-{id:1, group:'Avicii',song:'Wake Me Up',album:'True',year:'2013'},
-{id:2, group:'Drake',song:'God’s Plan',album:'Scorpion',year:'2018'},
+{id:1,group:'Avicii',song:'Wake Me Up',album:'True',year:'2013'},
+{id:2,group:'Drake',song:'God’s Plan',album:'Scorpion',year:'2018'},
 {id:3,group:'Hov1',song:'Neon',album:'Hov1',year:'2017'}];
 
 //top component
@@ -250,12 +250,16 @@ const App2 = () => {
 
 // child component
 //4
+//iniate list and functions with hooks
 const List = (props) => {
   //14MC
+    //React.useState(), instead of importing useState hook
   var [values, setValues] = React.useState({}); // Hooks for input elems
   //11MS
   const [, forceUpdate] = React.useState(0); // Hook for elem update
   //8S
+    //searchTerm iniated with '' (this.state.searchTerm), then all new states are saved in setSearchTerm 
+    //(this.setState)
   const [searchTerm, setSearchTerm] = React.useState(''); // Hook for search term
 
 
@@ -307,7 +311,8 @@ const manageSort = (event) => {
   const handleDel = (event) => {
     let id=event.target.id, i=0;
 // eslint-disable-next-line
-    for(i=0;i<datas.length;i++) if(datas[i].id == id) break; // Get matching id for removal
+    for(i=0;i<datas.length;i++) 
+    if(datas[i].id == id) break; // Get matching id for removal
     datas.splice(i,1); // Remove record from datas
     //12D-2
     forceUpdate(n => !n); // Force render  
@@ -324,7 +329,7 @@ if(searchTerm) {
   );
 }
 
-//5
+//5 Search function
   return (
   <div>
     <div id="searchDiv">
